@@ -1,0 +1,5 @@
+.vscode/*
+icons/new/
+*/__pycache__/*
+
+base.db
