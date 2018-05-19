@@ -1,5 +1,8 @@
 .vscode/*
 icons/new/
-*/__pycache__/*
+__pycache__/*
+dist/
+build
 
 base.db
+app.spec
