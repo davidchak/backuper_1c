@@ -22,7 +22,40 @@ color_theme_1 = {'top': '#FFF7B4', 'menu_text': '#35B495', 'bottom': '#FFF7B4',
                  'border_selected': '#FAF2A7'}
 
 
-class Backuper:
+class Task:
+    
+    def __init__(self, name, path):
+        self.name = name
+        self.path = path
+        self.scheduler = self.get_scheduler_task
+    
+
+    def get_scheduler_task(self):
+        # TODO: получить данные для выполнения заданий
+        pass
+
+    def get_complete_tasks(self):
+        # TODO: получить данные об предыдущих архивациях
+        pass
+    
+    def compress(self):
+        # TODO: выполнить архивацию 
+        pass
+    
+    def uncompress(self):
+        # TODO: выполнить восстановление 
+        pass
+    
+    def add_task_to_db(self):
+        # TODO: Добавить задачу в базу данных
+        pass
+
+    def update_task_in_db(self):
+        # TODO: Обновить задачу и записать в базу
+        pass
+
+
+class Gui:
     ''' GUI '''
 
     def __init__(self, root):
@@ -50,20 +83,25 @@ class Backuper:
                 con.commit()
                 con.close()
             except sqlite3.DatabaseError as err:
-                print(err)                                      # TODO: организовать запись в лога
+                # TODO: организовать запись в лог
+                print(err)                                      
                                                                           
     def crete_menu(self):
         menubar = tk.Menu(root)
         file_menu = tk.Menu(menubar, tearoff=0, fg=color_theme_1['menu_text'])
-        file_menu.add_command(label="Открыть конфигурацию")     # TODO: добавить обработчик
-        file_menu.add_command(label="Сохранить конфигурацию")   # TODO: добавить обработчик
+        # TODO: добавить обработчик
+        file_menu.add_command(label="Открыть конфигурацию")     
+        # TODO: добавить обработчик
+        file_menu.add_command(label="Сохранить конфигурацию")   
         file_menu.add_separator()
         file_menu.add_command(label="Выход", command=root.quit)
         menubar.add_cascade(label="Файл", menu=file_menu)
         config_menu = tk.Menu(menubar, tearoff=0,
                               fg=color_theme_1['menu_text'])
-        config_menu.add_command(label="Настройки архиватора")   # TODO: добавить обработчик
-        config_menu.add_command(label="Настройки интерфейса")   # TODO: добавить обработчик
+        # TODO: добавить обработчик
+        config_menu.add_command(label="Настройки архиватора") 
+        # TODO: добавить обработчик  
+        config_menu.add_command(label="Настройки интерфейса")  
         menubar.add_cascade(label="Настройки", menu=config_menu)
         info_menu = tk.Menu(menubar, tearoff=0, fg=color_theme_1['menu_text'])
         info_menu.add_command(label="О программе",
@@ -72,7 +110,8 @@ class Backuper:
         info_menu.add_command(label="Проверка обновлений",
                               command=self.create_update_prog_screen)
         info_menu.add_separator()
-        info_menu.add_command(label="Поддержать проект")        # TODO: добавить обработчик
+        # TODO: добавить обработчик
+        info_menu.add_command(label="Поддержать проект")       
         root.config(menu=menubar)
 
     def create_command_panel(self):
@@ -165,6 +204,6 @@ class Backuper:
 
 if __name__=='__main__':
     root = tk.Tk()
-    gui = Backuper(root)
+    gui = Gui(root)
     gui.init_configs()
     root.mainloop()
