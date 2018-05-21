@@ -5,6 +5,8 @@ import os
 import tkinter as tk
 import sqlite3
 import zipfile
+import wmi
+from tkinter import ttk
 
 
 PROG_NAME = 'Бэкапер 1С'
@@ -21,6 +23,22 @@ color_theme_1 = {'top': '#FFF7B4', 'menu_text': '#35B495', 'bottom': '#FFF7B4',
                'selected1': '#FEF659', 'selected2': '#FFF9B9',
                  'border_selected': '#FAF2A7'}
 
+# def search_1c_base():
+#     ''' Поисковик баз 1С '''
+#     pc_users = []
+#     q = wmi.WMI()
+#     for i in q.Win32_UserAccount():
+#         if not i.Name == 'default' and not i.Name == 'DefaultAccount' and not i.Name == 'Гость':
+#             pc_users.append(i.Name)
+
+#     logical_disks = []
+#     q = wmi.WMI()
+#         for i in q.Win32_LogicalDisk():
+#         logical_disks.append(i.Caption)
+
+    
+
+    
 
 class Task:
     
@@ -87,6 +105,7 @@ class Gui:
                 print(err)                                      
                                                                           
     def crete_menu(self):
+        ''' Создает основное меню '''
         menubar = tk.Menu(root)
         file_menu = tk.Menu(menubar, tearoff=0, fg=color_theme_1['menu_text'])
         # TODO: добавить обработчик
@@ -115,6 +134,7 @@ class Gui:
         root.config(menu=menubar)
 
     def create_command_panel(self):
+        ''' Создает панель инструментов '''
         top_panel = tk.Frame(self.root, height=30, bg=color_theme_1['top'])
         top_panel.pack(side='top', fill='x')
         buttons = [{'image': 'main.gif', 'command': self.create_first_screen},
@@ -138,12 +158,27 @@ class Gui:
                 i.destroy()
 
     def create_first_screen(self):
-        ''' Создание первичного(главного) фрейма'''
+        ''' Создает первичный(главный) фрейм'''
         self.clear_main_screen()
-        first_screen = tk.Frame(self.main_screen, bg=color_theme_1['center1'])
+        first_screen = tk.Frame(self.main_screen)
         first_screen.pack(side="top", fill='both', expand=True)
-        label = tk.Label(first_screen, text='Главный экран')
-        label.pack(anchor='center', ipady=30, pady=50)
+        left_side = tk.Frame(first_screen, width=400,
+                             height=100, bg=color_theme_1['center1'])
+        left_side.pack(side='left',  fill='both', expand=True)
+        right_side = tk.Frame(first_screen, width=200,
+                              height=100, bg=color_theme_1['center2'])
+        right_side.pack(side='left', fill='both', expand=True)
+        
+        tree = ttk.Treeview(left_side, columns=('id', 'base', 'path'), height=16, show='headings')
+        tree.column('id', width=10)
+        tree.column('base', width=150)
+        tree.column('path', width=200)
+        
+        tree.heading('id', text='id')
+        tree.heading('base', text='base')
+        tree.heading('path', text='path')
+        tree.pack(fill='both',  pady=10)
+
 
     def create_update_prog_screen(self):
         ''' Создание фрейма проверки обновлений программы'''
