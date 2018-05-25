@@ -138,8 +138,8 @@ class Gui:
         top_panel = tk.Frame(self.root, height=30, bg=color_theme_1['top'])
         top_panel.pack(side='top', fill='x')
         buttons = [{'image': 'main.gif', 'command': self.create_first_screen},
-                   {'image': 'add.gif', 'command': self.create_add_config_screen},
-                   {'image': 'search.gif', 'command': self.create_searcher_1cconf_screen},   
+                #    {'image': 'add.gif', 'command': self.create_add_config_screen},
+                #    {'image': 'search.gif', 'command': self.create_searcher_1cconf_screen},   
                    {'image': 'scheduler.gif', 'command': self.create_scheduler_screen},
                    {'image': 'update.gif', 'command': self.create_update_prog_screen},
                    {'image': 'info.gif', 'command': self.create_help_screen}]
@@ -162,22 +162,40 @@ class Gui:
         self.clear_main_screen()
         first_screen = tk.Frame(self.main_screen)
         first_screen.pack(side="top", fill='both', expand=True)
-        left_side = tk.Frame(first_screen, width=400,
-                             height=100, bg=color_theme_1['center1'])
+        left_side = tk.Frame(first_screen, width = 400,
+                             height = 100, bg=color_theme_1['center1'])
         left_side.pack(side='left',  fill='both', expand=True)
-        right_side = tk.Frame(first_screen, width=200,
-                              height=100, bg=color_theme_1['center2'])
+        right_side = tk.Frame(first_screen, width = 200,
+                              height = 100, bg=color_theme_1['center2'])
         right_side.pack(side='left', fill='both', expand=True)
         
-        tree = ttk.Treeview(left_side, columns=('id', 'base', 'path'), height=16, show='headings')
-        tree.column('id', width=10)
-        tree.column('base', width=150)
-        tree.column('path', width=200)
+        tree = ttk.Treeview(left_side, columns=('id', 'base', 'path'), height = 16, show='headings')
+        tree.column('id', width = 10)
+        tree.column('base', width = 150)
+        tree.column('path', width = 200)
         
         tree.heading('id', text='id')
         tree.heading('base', text='base')
         tree.heading('path', text='path')
-        tree.pack(fill='both',  pady=10)
+        tree.pack(fill='both',  pady = 10, padx = 10)
+
+        right_command_panel_1 = tk.Frame(right_side, width=180, height=70, bg=color_theme_1['center2'])
+        right_command_panel_1.pack(side='top', padx=10, pady=10)
+
+        icon = tk.PhotoImage(file='icons/add.gif')
+        add_config_button = tk.Button(right_command_panel_1, image = icon)
+        add_config_button.image = icon
+        add_config_button.command = self.create_add_config_screen
+        add_config_button.place(width=70, height=50, x=15, y=10)
+        
+        right_command_panel_2 = tk.Frame(right_side, width=180, height=260, bg='red')
+        right_command_panel_2.pack(side='top', padx=10, pady=5)
+
+        icon = tk.PhotoImage(file='icons/search.gif')
+        autoscan_confib_button = tk.Button(right_command_panel_1, image = icon)
+        autoscan_confib_button.image = icon
+        autoscan_confib_button.command = self.create_searcher_1cconf_screen
+        autoscan_confib_button.place(width=70, height=50, x=95, y=10)
 
 
     def create_update_prog_screen(self):
