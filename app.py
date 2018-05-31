@@ -7,6 +7,7 @@ import sqlite3
 import zipfile
 import wmi
 from tkinter import ttk
+from tkinter.filedialog import askopenfilename
 
 
 PROG_NAME = 'Бэкапер 1С'
@@ -36,7 +37,6 @@ color_theme_1 = {'top': '#FFF7B4', 'menu_text': '#35B495', 'bottom': '#FFF7B4',
 #         for i in q.Win32_LogicalDisk():
 #         logical_disks.append(i.Caption)
 
-    
 
     
 
@@ -142,7 +142,7 @@ class Gui:
                 #    {'image': 'search.gif', 'command': self.create_searcher_1cconf_screen},   
                    {'image': 'scheduler.gif', 'command': self.create_scheduler_screen},
                    {'image': 'update.gif', 'command': self.create_update_prog_screen},
-                   {'image': 'info.gif', 'command': self.create_help_screen}]
+                   {'image': 'info.gif', 'command': self.test}]
                    
         for index, item in enumerate(buttons):
             icon = tk.PhotoImage(file='icons/{}'.format(buttons[index]['image']))
@@ -150,6 +150,9 @@ class Gui:
                 master=top_panel, image=icon, width=50, height=50, bg=color_theme_1['button2'], command=buttons[index]['command'])
             self.button.image = icon
             self.button.pack(side='left', padx=4, pady=2)
+
+    def test(self):
+        print(self.parent)
             
     def clear_main_screen(self):
         ''' Отчистка фрейма главного экрана от потомков'''
@@ -185,16 +188,15 @@ class Gui:
         icon = tk.PhotoImage(file='icons/add.gif')
         add_config_button = tk.Button(right_command_panel_1, image = icon)
         add_config_button.image = icon
-        add_config_button.command = self.create_add_config_screen
+        add_config_button.command = self.load_file
         add_config_button.place(width=70, height=50, x=15, y=10)
         
         right_command_panel_2 = tk.Frame(right_side, width=180, height=260, bg='red')
         right_command_panel_2.pack(side='top', padx=10, pady=5)
 
         icon = tk.PhotoImage(file='icons/search.gif')
-        autoscan_confib_button = tk.Button(right_command_panel_1, image = icon)
+        autoscan_confib_button = tk.Button(right_command_panel_1, image = icon, command=self.load_file())
         autoscan_confib_button.image = icon
-        autoscan_confib_button.command = self.create_searcher_1cconf_screen
         autoscan_confib_button.place(width=70, height=50, x=95, y=10)
 
 
@@ -207,14 +209,19 @@ class Gui:
         label = tk.Label(update_prog_screen, text='update_prog_screen')
         label.pack(anchor='center', ipady=30, pady=50)
 
-    def create_add_config_screen(self):
-        ''' Создание фрейма добавления файлов конфигурации 1С'''
-        self.clear_main_screen()
-        add_config_screen = tk.Frame(
-            self.main_screen, bg=color_theme_1['center1'])
-        add_config_screen.pack(side="top", fill='both', expand=True)
-        label = tk.Label(add_config_screen, text='add_config_screen')
-        label.pack(anchor='center', ipady=30, pady=50)
+
+    def load_file(self):
+        fname = askopenfilename(filetypes=(("1C files", "*.1CD"),
+                                           ("All files", "*.*")))
+        if fname:
+            try:
+                print(
+                    """here it comes: self.settings["template"].set(fname)""")
+            except:           
+                showerror("Open Source File",
+                          "Failed to read file\n'%s'" % fname)
+            return
+        
 
     def create_scheduler_screen(self):
         ''' Создание фрейма добавления расписания заданий'''
