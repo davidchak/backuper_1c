@@ -6,3 +6,4 @@ build
 
 base.db
 app.spec
+app__examples__.py
